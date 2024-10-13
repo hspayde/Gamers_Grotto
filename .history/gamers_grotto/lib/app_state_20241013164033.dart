@@ -43,11 +43,11 @@ class ApplicationState extends ChangeNotifier {
     return FirebaseFirestore.instance
           .collection('players')
           .add(<String, dynamic> {
-            'name' : "Hello",
-            'goalPosX' : 10,
-            'goalPosY' : 10,
-            'color' : "red",
-            'latestMessage' : "Hello"
+            'name' : newPlayer.name,
+            'goalPosX' : newPlayer.goalX,
+            'goalPosY' : newPlayer.goalY,
+            'color' : newPlayer.color,
+            'latestMessage' : newPlayer.message
           });
   }
 
