@@ -1,7 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:gamers_grotto/screens/home_screen.dart';
+import 'package:gamers_grotto/widgets.dart';
 
 void main() {
-  runApp(const MyApp());
+  ThemeData theme = ThemeData(colorScheme: const ColorScheme(
+          brightness: Brightness.light,
+          primary: Color.fromARGB(255, 106, 112, 89),
+          onPrimary: Color.fromARGB(255, 253, 238, 167),
+          secondary: Color.fromARGB(255, 155, 204, 167),
+          onSecondary: Color.fromARGB(255,0, 41, 61),
+          tertiary: Color.fromARGB(255, 5, 69, 87),
+          onTertiary: Color.fromARGB(255, 253, 238, 167),
+          error: Color.fromARGB(255, 188, 124, 124),
+          onError: Color.fromARGB(255, 246, 239, 189),
+          surface: Color.fromARGB(255, 165, 182, 141),
+          onSurface: Color.fromARGB(255,0, 41, 61),
+        ),);
+  runApp(MaterialApp(home: const HomeScreen(), theme: theme));
 }
 
 class MyApp extends StatelessWidget {

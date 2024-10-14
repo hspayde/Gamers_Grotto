@@ -11,7 +11,7 @@ class TitleText extends StatelessWidget {
     padding: const EdgeInsets.all(8.0),
     child: Text(
       titleText,
-      style: GoogleFonts.sixtyfour(),
+      style: GoogleFonts.sixtyfour(color: Theme.of(context).colorScheme.onPrimary),
     )
-  )
+  );
 }
