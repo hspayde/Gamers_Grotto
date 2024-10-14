@@ -59,7 +59,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   ApplicationState appState = ApplicationState();
-  Player newPlayer = Player(x: 10.0,y:10.0, color: "green", name: "Hello");
+  Player newPlayer = Player(x: 10,y:10, color: Colors.red, name: "Hello");
   void _incrementCounter() {
     setState(() {
       // This call to setState tells the Flutter framework that something has

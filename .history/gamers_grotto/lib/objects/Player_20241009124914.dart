@@ -8,6 +8,6 @@ class Player {
   double y;
   late double goalX = x;
   late double goalY = y;
-  String color = "red";
+  Color color = Colors.red;
   String message;
 }
