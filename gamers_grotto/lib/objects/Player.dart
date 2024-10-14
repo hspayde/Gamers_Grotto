@@ -1,5 +1,6 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class Player {
   Player({required this.name, required this.x, required this.y, required this.color, this.message = ''});
@@ -8,6 +9,6 @@ class Player {
   double y;
   late double goalX = x;
   late double goalY = y;
-  String color = "red";
+  String color;
   String message;
 }
