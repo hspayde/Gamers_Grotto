@@ -42,7 +42,7 @@ class ApplicationState extends ChangeNotifier {
       'name' : newPlayer.name,
       'goalPosX' :  newPlayer.goalX,
       'goalPosY' : newPlayer.goalY,
-      'color' : newPlayer.color
+      'color' : "red"
     };
     return FirebaseFirestore.instance
       .collection('players')
