@@ -19,8 +19,6 @@ class ApplicationState extends ChangeNotifier {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
     print("Initializing Firebase");
-
-    FirebaseFirestore.instance.collection("test").doc("Hello!");  
     FirebaseFirestore.instance
       .collection('players')
       .snapshots()
@@ -30,9 +28,9 @@ class ApplicationState extends ChangeNotifier {
           _players.add(
             Player(
               name: playerInfo.data()['name'] as String,
-              x: playerInfo.data()['goalPosX'] as double, 
-              y: playerInfo.data()['goalPosY'] as double,
-              color: playerInfo.data()['color'] as Color
+              x: double.parse(playerInfo.data()['goalPosX'].toString()), 
+              y: double.parse(playerInfo.data()['goalPosY'].toString()),
+              color: playerInfo.data()['color'] as String
             ),
           );
         }
@@ -40,12 +38,13 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<DocumentReference> addPlayer(Player newPlayer) {
+    print("Adding Player");
     return FirebaseFirestore.instance
           .collection('players')
           .add(<String, dynamic> {
             'name' : "Hello",
-            'goalPosX' : 10,
-            'goalPosY' : 10,
+            'goalPosX' : 10.0,
+            'goalPosY' : 10.0,
             'color' : "red",
             'latestMessage' : "Hello"
           });
