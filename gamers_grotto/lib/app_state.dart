@@ -37,26 +37,26 @@ class ApplicationState extends ChangeNotifier {
       });
   }
 
-  Future<DocumentReference> addPlayer(Player newPlayer) {
-    print("Adding Player");
+  Future<void> addPlayer(Player newPlayer) {
+    Map<String, dynamic> data = <String, dynamic>{
+      'name' : newPlayer.name,
+      'goalPosX' :  newPlayer.goalX,
+      'goalPosY' : newPlayer.goalY,
+      'color' : newPlayer.color
+    };
     return FirebaseFirestore.instance
-          .collection('players')
-          .add(<String, dynamic> {
-            'name' : "Hello",
-            'goalPosX' : 10.0,
-            'goalPosY' : 10.0,
-            'color' : "red",
-            'latestMessage' : "Hello"
-          });
+      .collection('players')
+      .doc(newPlayer.name)
+      .set(data);
   }
 
-  // void removePlayer(String playerName) {
-  //         FirebaseFirestore.instance
-  //         .collection('players')
-  //         .
-  //         .
+  void removePlayer(String playerName) {
+          FirebaseFirestore.instance
+          .collection('players')
+          .doc(playerName)
+          .delete();
 
-  // }
+  }
 
 
 }
