@@ -74,7 +74,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   void createPlayer(String playerName, String colorHex) {
-
+    Player newPlayer = Player(x: 10.0, y:10.0, color : colorHex, name:playerName);
+    appState.addPlayer(newPlayer);
   }
 
   @override
