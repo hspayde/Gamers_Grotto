@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:ffi';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
+import 'package:gamers_grotto/widgets.dart';
 
 typedef playerAdded = Function(String name, String color);
 
@@ -24,34 +25,64 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text("Gamers Grotto")
-      ),
-      body: Column(
-        children: [
-          const Text("Welcome to the Grotto, please type your name and choose a color!"),
-          TextField(
-            controller: nameController,
-            onChanged: (value) {
-              setState(() {
-                nameVal = value;
-              });
-            },
-            decoration: const InputDecoration(hintText: "Input your display name here"),
+      body: 
+      Stack(
+        children: <Widget>[
+        /*Container(
+          decoration: const BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('lib/assets/pexels-feiwang-15837757.jpg'),
+              fit: BoxFit.cover,
+            )
           ),
-          ColorPicker(
-            pickerColor: Colors.black, 
-            onColorChanged: (value) {
-              colorVal = value.toHexString();
-            }
+        ),*/ // I decided it looked better without the image in the background
+        Padding(
+          padding: const EdgeInsets.all(20),
+          child:
+          Align(
+            alignment: Alignment.center,
+            child:
+            Flexible(
+              child:
+              SingleChildScrollView(
+                child:
+                Column(
+                  children: <Widget> [
+                    const TitleText(),
+                    Text("Welcome to the Grotto, please type your name and choose a color!", 
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 15),),
+                    TextField(
+                      style: TextStyle(
+                      color: Theme.of(context).colorScheme.onSecondary
+                      ),
+                      controller: nameController,
+                      onChanged: (value) {
+                        setState(() {
+                          nameVal = value;
+                        });
+                      },
+                      decoration: const InputDecoration(hintText: "Input your display name here"),
+                    ),
+                    ColorPicker(
+                      pickerColor: Colors.black, 
+                      onColorChanged: (value) {
+                        colorVal = value.toHexString();
+                      }
+                    ),
+                    FloatingActionButton(
+                      backgroundColor: Theme.of(context).colorScheme.secondary,
+                      foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                      onPressed: () { 
+                        widget.onPlayerAdded(nameVal, colorVal);
+                      }
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          FloatingActionButton(
-            onPressed: () { 
-              widget.onPlayerAdded(nameVal, colorVal);
-            }
-          )
-        ],
-      ),
+        ),
+      ]),
     );
   }
 }

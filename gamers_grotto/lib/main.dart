@@ -4,22 +4,11 @@ import 'objects/Player.dart';
 import 'package:gamers_grotto/widgets.dart';
 import 'package:gamers_grotto/screens/home_screen.dart';
 import 'screens/home_screen.dart';
+typedef PlayerAdded = Function(String name, String color);
 
 void main() {
-  ThemeData theme = ThemeData(colorScheme: const ColorScheme(
-          brightness: Brightness.light,
-          primary: Color.fromARGB(255, 106, 112, 89),
-          onPrimary: Color.fromARGB(255, 253, 238, 167),
-          secondary: Color.fromARGB(255, 155, 204, 167),
-          onSecondary: Color.fromARGB(255,0, 41, 61),
-          tertiary: Color.fromARGB(255, 5, 69, 87),
-          onTertiary: Color.fromARGB(255, 253, 238, 167),
-          error: Color.fromARGB(255, 188, 124, 124),
-          onError: Color.fromARGB(255, 246, 239, 189),
-          surface: Color.fromARGB(255, 165, 182, 141),
-          onSurface: Color.fromARGB(255,0, 41, 61),
-        ),);
-  runApp(MaterialApp(home: const HomeScreen(), theme: theme));
+
+  runApp(MyHomePage(title: 'Gamers Grotto'));
 }
 
 class MyApp extends StatelessWidget {
@@ -46,7 +35,17 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: const ColorScheme(brightness: Brightness.dark,
+          primary: Color.fromARGB(255, 106, 112, 89),
+          onPrimary: Color.fromARGB(255, 253, 238, 167),
+          secondary: Color.fromARGB(255, 155, 204, 167),
+          onSecondary: Color.fromARGB(255,0, 41, 61),
+          tertiary: Color.fromARGB(255, 5, 69, 87),
+          onTertiary: Color.fromARGB(255, 253, 238, 167),
+          error: Color.fromARGB(255, 188, 124, 124),
+          onError: Color.fromARGB(255, 246, 239, 189),
+          surface: Color.fromARGB(255, 165, 182, 141),
+          onSurface: Color.fromARGB(255,0, 41, 61),),
         useMaterial3: true,
       ),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
@@ -76,7 +75,7 @@ class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   ApplicationState appState = ApplicationState();
   Player newPlayer = Player(x: 10.0,y:10.0, color: "green", name: "Hello");
-  void _incrementCounter() {
+  void _playGame() {
     setState(() {
       // This call to setState tells the Flutter framework that something has
       // changed in this State, which causes it to rerun the build method below
@@ -101,25 +100,33 @@ class _MyHomePageState extends State<MyHomePage> {
     // The Flutter framework has been optimized to make rerunning build methods
     // fast, so that you can just rebuild anything that needs updating rather
     // than having to individually change instances of widgets.
-    return Scaffold(
-      appBar: AppBar(
-        // TRY THIS: Try changing the color here to a specific color (to
-        // Colors.amber, perhaps?) and trigger a hot reload to see the AppBar
-        // change color while the other colors stay the same.
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
-        title: Text(
-          appState.players.toString()
-          ),
+    return MaterialApp(
+        theme: ThemeData(colorScheme: const ColorScheme(
+          brightness: Brightness.dark,
+          primary: Color.fromARGB(255, 106, 112, 89),
+          onPrimary: Color.fromARGB(255, 253, 238, 167),
+          secondary: Color.fromARGB(255, 155, 204, 167),
+          onSecondary: Color.fromARGB(255,0, 41, 61),
+          tertiary: Color.fromARGB(255, 5, 69, 87),
+          onTertiary: Color.fromARGB(255, 253, 238, 167),
+          error: Color.fromARGB(255, 188, 124, 124),
+          onError: Color.fromARGB(255, 246, 239, 189),
+          surface: Color.fromARGB(255, 165, 182, 141),
+          onSurface: Color.fromARGB(255,0, 41, 61),
+        ),),
+      
+      home:
+      Scaffold(
+        body:
+          HomeScreen(onPlayerAdded: createPlayer),
+          /*floatingActionButton: FloatingActionButton(
+            onPressed: _playGame,
+            backgroundColor: const Color.fromARGB(255, 155, 204, 167),
+            foregroundColor: const Color.fromARGB(255,0, 41, 61),
+            tooltip: 'Play',
+            child: const Icon(Icons.play_arrow),
+          ),*/
       ),
-      body: HomeScreen(onPlayerAdded: createPlayer
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
