@@ -1,6 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
+class MainTitleText extends StatelessWidget {
+  const MainTitleText({super.key});
+  final String titleText = "Gamer's Grotto";
+  
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.all(8.0),
+    child: Text(
+      titleText,
+      style: GoogleFonts.sixtyfour(color: Theme.of(context).colorScheme.tertiary, fontSize: 25),
+    )
+  );
+}
+
 class TitleText extends StatelessWidget {
   const TitleText({super.key});
   final String titleText = "Gamer's Grotto";
@@ -11,7 +26,7 @@ class TitleText extends StatelessWidget {
     padding: const EdgeInsets.all(8.0),
     child: Text(
       titleText,
-      style: GoogleFonts.sixtyfour(color: Theme.of(context).colorScheme.tertiary, fontSize: 25),
+      style: GoogleFonts.sixtyfour(color: Theme.of(context).colorScheme.onPrimary, fontSize: 18),
     )
   );
 }

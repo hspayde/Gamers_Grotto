@@ -4,6 +4,8 @@ import 'dart:ffi';
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:gamers_grotto/widgets.dart';
 
+import 'game_page.dart';
+
 typedef playerAdded = Function(String name, String color);
 
 class HomeScreen extends StatefulWidget{
@@ -49,7 +51,7 @@ class HomeScreenState extends State<HomeScreen> {
                 child:
                 Column(
                   children: <Widget> [
-                    const TitleText(),
+                    const MainTitleText(),
                     Text("Welcome to the Grotto, please type your name and choose a color!", 
                     style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 20),),
                     TextField(
@@ -79,7 +81,12 @@ class HomeScreenState extends State<HomeScreen> {
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       foregroundColor: Theme.of(context).colorScheme.onSecondary,
                       onPressed: () { 
-                        widget.onPlayerAdded(nameVal, colorVal);
+                        //widget.onPlayerAdded(nameVal, colorVal);
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => const GamePage(),
+                          )
+                        );
                       },
                       child: const Icon(Icons.check),
                     ),
