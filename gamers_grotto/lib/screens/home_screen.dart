@@ -28,14 +28,15 @@ class HomeScreenState extends State<HomeScreen> {
       body: 
       Stack(
         children: <Widget>[
-        /*Container(
+        Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('lib/assets/pexels-feiwang-15837757.jpg'),
               fit: BoxFit.cover,
-            )
+              opacity: 0.3,
+            ),
           ),
-        ),*/ // I decided it looked better without the image in the background
+        ), // I decided it looked better without the image in the background
         Padding(
           padding: const EdgeInsets.all(20),
           child:
@@ -50,7 +51,7 @@ class HomeScreenState extends State<HomeScreen> {
                   children: <Widget> [
                     const TitleText(),
                     Text("Welcome to the Grotto, please type your name and choose a color!", 
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 15),),
+                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 20),),
                     TextField(
                       style: TextStyle(
                       color: Theme.of(context).colorScheme.onSecondary
@@ -63,18 +64,24 @@ class HomeScreenState extends State<HomeScreen> {
                       },
                       decoration: const InputDecoration(hintText: "Input your display name here"),
                     ),
-                    ColorPicker(
-                      pickerColor: Colors.black, 
-                      onColorChanged: (value) {
-                        colorVal = value.toHexString();
-                      }
+                    Padding(
+                      padding: EdgeInsets.all(5),
+                      child:
+                      ColorPicker(
+                        pickerColor: Colors.black, 
+                        
+                        onColorChanged: (value) {
+                          colorVal = value.toHexString();
+                        }
+                      ),
                     ),
                     FloatingActionButton(
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       foregroundColor: Theme.of(context).colorScheme.onSecondary,
                       onPressed: () { 
                         widget.onPlayerAdded(nameVal, colorVal);
-                      }
+                      },
+                      child: const Icon(Icons.check),
                     ),
                   ],
                 ),
