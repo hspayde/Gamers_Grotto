@@ -66,3 +66,34 @@ class RoomText extends StatelessWidget {
     style: GoogleFonts.protestStrike(color: Theme.of(context).colorScheme.onPrimary, fontSize: 12),
   );
 }
+
+class ChatLogDialog extends StatelessWidget {
+  const ChatLogDialog({required this.chatLog, super.key});
+  final List<String> chatLog;
+  
+  List<Widget> chatLogChange() {
+    List<Widget> changedChatLog = [];
+    for(int i = 0; i < chatLog.length; i++) {
+      changedChatLog.add(Text(chatLog[i]));
+    }
+    return changedChatLog;
+  }
+
+  @override
+  Widget build(BuildContext context) => AlertDialog(
+    title: const Text('Chatlog'),
+    content:
+      SingleChildScrollView(
+        child:
+        Column(crossAxisAlignment: CrossAxisAlignment.start,children: chatLogChange()),
+      ),
+    actions: <Widget>[
+      IconButton(
+        icon: Icon(Icons.exit_to_app,size: 50),
+        onPressed: () {
+          Navigator.pop(context);
+        },
+      )
+    ]
+  );
+}
