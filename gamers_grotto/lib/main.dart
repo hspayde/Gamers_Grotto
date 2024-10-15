@@ -74,20 +74,13 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   ApplicationState appState = ApplicationState();
-  Player newPlayer = Player(x: 10.0,y:10.0, color: "green", name: "Hello");
+  String _playerName = '';
   void _playGame() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      appState.addPlayer(newPlayer);
-      _counter++;
-    });
+    appState.setPlayerPos(_playerName, 105.0, 500.0);
   }
 
   void createPlayer(String playerName, String colorHex) {
+    _playerName = playerName;
     Player newPlayer = Player(x: 10.0, y:10.0, color : colorHex, name:playerName);
     appState.addPlayer(newPlayer);
   }
@@ -119,13 +112,13 @@ class _MyHomePageState extends State<MyHomePage> {
       Scaffold(
         body:
           HomeScreen(onPlayerAdded: createPlayer),
-          /*floatingActionButton: FloatingActionButton(
-            onPressed: _playGame,
-            backgroundColor: const Color.fromARGB(255, 155, 204, 167),
-            foregroundColor: const Color.fromARGB(255,0, 41, 61),
-            tooltip: 'Play',
-            child: const Icon(Icons.play_arrow),
-          ),*/
+          // floatingActionButton: FloatingActionButton(
+          //   onPressed: _playGame,
+          //   backgroundColor: const Color.fromARGB(255, 155, 204, 167),
+          //   foregroundColor: const Color.fromARGB(255,0, 41, 61),
+          //   tooltip: 'Play',
+          //   child: const Icon(Icons.play_arrow),
+          // ),
       ),
     );
   }

@@ -28,8 +28,8 @@ class ApplicationState extends ChangeNotifier {
           _players.add(
             Player(
               name: playerInfo.data()['name'] as String,
-              x: double.parse(playerInfo.data()['goalPosX'].toString()), 
-              y: double.parse(playerInfo.data()['goalPosY'].toString()),
+              x: double.parse(playerInfo.data()['posX'].toString()), 
+              y: double.parse(playerInfo.data()['posY'].toString()),
               color: playerInfo.data()['color'] as String
             ),
           );
@@ -40,8 +40,8 @@ class ApplicationState extends ChangeNotifier {
   Future<void> addPlayer(Player newPlayer) {
     Map<String, dynamic> data = <String, dynamic>{
       'name' : newPlayer.name,
-      'goalPosX' :  newPlayer.goalX,
-      'goalPosY' : newPlayer.goalY,
+      'posX' :  newPlayer.goalX,
+      'posY' : newPlayer.goalY,
       'color' : newPlayer.color
     };
     return FirebaseFirestore.instance
@@ -55,7 +55,13 @@ class ApplicationState extends ChangeNotifier {
           .collection('players')
           .doc(playerName)
           .delete();
+  }
 
+  void setPlayerPos(String playerName, double x, double y){
+      FirebaseFirestore.instance
+      .collection('players')
+      .doc(playerName)
+      .update({'posX' : x, 'posY' : y});
   }
 
 
