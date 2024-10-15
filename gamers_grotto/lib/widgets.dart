@@ -55,3 +55,14 @@ class PlayerAvatar extends StatelessWidget {
     ],
   );
 }
+
+class RoomText extends StatelessWidget {
+  const RoomText({required this.roomName, super.key});
+  final String roomName;
+
+  @override
+  Widget build(BuildContext context) => Text(
+    roomName,
+    style: GoogleFonts.protestStrike(color: Theme.of(context).colorScheme.onPrimary, fontSize: 12),
+  );
+}
