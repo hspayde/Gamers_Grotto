@@ -45,8 +45,6 @@ class HomeScreenState extends State<HomeScreen> {
           Align(
             alignment: Alignment.center,
             child:
-            Flexible(
-              child:
               SingleChildScrollView(
                 child:
                 Column(
@@ -81,12 +79,16 @@ class HomeScreenState extends State<HomeScreen> {
                       backgroundColor: Theme.of(context).colorScheme.secondary,
                       foregroundColor: Theme.of(context).colorScheme.onSecondary,
                       onPressed: () { 
-                        //widget.onPlayerAdded(nameVal, colorVal);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => const GamePage(),
-                          )
-                        );
+                        if(nameVal != "") {
+                          //widget.onPlayerAdded(nameVal, colorVal);
+                          Navigator.of(context).push(
+                            MaterialPageRoute(
+                              builder: (context) => const GamePage(),
+                            )
+                          );
+                        }else {
+                          null;
+                        }
                       },
                       child: const Icon(Icons.check),
                     ),
@@ -95,7 +97,6 @@ class HomeScreenState extends State<HomeScreen> {
               ),
             ),
           ),
-        ),
       ]),
     );
   }
