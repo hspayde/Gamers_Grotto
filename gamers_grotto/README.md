@@ -1,16 +1,13 @@
-# gamers_grotto
+# Gamer's Grotto
+An interactive social game where you can meet and talk with fellow gamers!
+Useful for meeting new people through means outside of real-world travel and communication. 
 
-A new Flutter project.
+## How to Start
+Upon opening the app, you will be met with a menu. 
+Type in the username you would like to use in the text field. Select your avatar. And press play to join in the fun!
 
-## Getting Started
-
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## In the Grotto
+Users will be represented with circles with the selected color and name.
+Tapping anywhere on the screen moves your circle to that spot! 
+Use the portals to go to a new area! 
+Type in the textbox at the bottom to send a message that will be displayed above your avatar!
