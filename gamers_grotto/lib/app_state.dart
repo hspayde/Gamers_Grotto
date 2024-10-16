@@ -144,15 +144,29 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<void> addToChat(String room, String message, Player p) {
+    p.message = message;
+    FirebaseFirestore.instance
+      .collection('rooms')
+      .doc(room)
+      .collection('players')
+      .doc(p.name)
+      .update({'message': message});
     return FirebaseFirestore.instance
       .collection('rooms')
       .doc(room)
       .collection('chatlog')
       .add(<String, dynamic>{
-    'text': message,
+    'text': '${p.name}: $message',
     'timestamp': DateTime.now().millisecondsSinceEpoch,
     'name': p.name,
     });
+  }
+
+  void setPlayerPos(String playerName, double x, double y){
+      FirebaseFirestore.instance
+      .collection('players')
+      .doc(playerName)
+      .update({'posX' : x, 'posY' : y});
   }
 }
   
