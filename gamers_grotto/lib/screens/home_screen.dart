@@ -38,7 +38,7 @@ class HomeScreenState extends State<HomeScreen> {
               opacity: 0.3,
             ),
           ),
-        ), // I decided it looked better without the image in the background
+        ),
         Padding(
           padding: const EdgeInsets.all(20),
           child:
@@ -80,7 +80,7 @@ class HomeScreenState extends State<HomeScreen> {
                       foregroundColor: Theme.of(context).colorScheme.onSecondary,
                       onPressed: () { 
                         if(nameVal != "") {
-                          //widget.onPlayerAdded(nameVal, colorVal);
+                          widget.onPlayerAdded(nameVal, colorVal);
                           Navigator.of(context).push(
                             MaterialPageRoute(
                               builder: (context) => const GamePage(),
