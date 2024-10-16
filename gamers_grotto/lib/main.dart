@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           surface: Color.fromARGB(255, 165, 182, 141),
           onSurface: Color.fromARGB(255,0, 41, 61),),
         useMaterial3: true,
-      ),
+      ), 
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -56,26 +56,34 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   ApplicationState appState = ApplicationState();
-  final double centerX = 10;
-  final double centerY = 10;
+  final double centerX = 50;
+  final double centerY = 500;
   var rng = Random();
   String _playerName = '';
-  void _playGame() {
-    appState.setPlayerPos(_playerName, 105.0, 500.0);
-  }
+  String _currentRoom = '';
+  // void _playGame() {
+  //   appState.setPlayerPos(_playerName, 105.0, 500.0);
+  // }
 
   void createPlayer(String playerName, String colorHex) {
     _playerName = playerName;
+    _currentRoom = "mainroom";
     //print("PLAYER HAS " + playerName);
-    double newX = centerX + ((rng.nextDouble() * 10)-5);
-    double newY = centerY + ((rng.nextDouble() * 10)-5);
+    double newX = centerX + ((rng.nextDouble() * 50)-25);
+    double newY = centerY + ((rng.nextDouble() * 50)-25);
     Player newPlayer = Player(x: newX, y: newY, color : colorHex, name:playerName);
-    appState.addPlayer(newPlayer);
+    appState.addPlayer(newPlayer, _currentRoom);
   }
 
   void removePlayer() {
-    print("PLAYER HAS " + _playerName);
-    appState.removePlayer(_playerName);
+    appState.removePlayer(_playerName, _currentRoom);
+  }
+
+  void movePlayer(String newRoom) {
+    String oldRoom = _currentRoom;
+    
+    appState.switchPlayer(newRoom, oldRoom, _playerName);
+    _currentRoom = newRoom;
   }
 
   @override
@@ -104,7 +112,7 @@ class _MyHomePageState extends State<MyHomePage> {
       home:
       Scaffold(
         body:
-          HomeScreen(onPlayerAdded: createPlayer, onPlayerRemoved: removePlayer, appState: appState),
+          HomeScreen(onPlayerAdded: createPlayer, onPlayerRemoved: removePlayer, onPlayerMoved: movePlayer, appState: appState),
           // floatingActionButton: FloatingActionButton(
           //   onPressed: _playGame,
           //   backgroundColor: const Color.fromARGB(255, 155, 204, 167),

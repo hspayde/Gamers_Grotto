@@ -21,7 +21,7 @@ class ApplicationState extends ChangeNotifier {
     print("Initializing Firebase");
     FirebaseFirestore.instance
       .collection('rooms')
-      .doc('main room')
+      .doc('mainroom')
       .collection('players')
       .snapshots()
       .listen((snapshot) {

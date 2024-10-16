@@ -5,6 +5,7 @@ import 'dart:ffi';
 
 import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:gamers_grotto/app_state.dart';
+import 'package:gamers_grotto/screens/game_screen.dart';
 import 'package:gamers_grotto/widgets.dart';
 
 import 'game_page.dart';
@@ -13,17 +14,22 @@ typedef playerAdded = Function(String name, String color);
 
 typedef playerRemoved = Function();
 
+typedef roomChanged = Function(String newRoom);
+
 class HomeScreen extends StatefulWidget{
   const HomeScreen({
     super.key,
     required this.onPlayerAdded,
     required this.onPlayerRemoved,
-    required this.appState
+    required this.appState,
+    required this.onPlayerMoved
   });
 
   final playerAdded onPlayerAdded;
 
   final playerRemoved onPlayerRemoved;
+
+  final roomChanged onPlayerMoved;
 
   final ApplicationState appState;
 
@@ -98,7 +104,7 @@ class HomeScreenState extends State<HomeScreen> {
                         Navigator.of(context).push(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return GamePage(onPlayerRemoved: widget.onPlayerRemoved, appState: widget.appState, playerName: activeName);
+                              return GamePage(onPlayerRemoved: widget.onPlayerRemoved, onPlayerMoved: widget.onPlayerMoved,appState: widget.appState, playerName: activeName);
                             },
                           )
                         );

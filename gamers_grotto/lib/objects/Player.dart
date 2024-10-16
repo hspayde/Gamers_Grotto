@@ -17,4 +17,7 @@ class Player {
       return Colors.black;
     }
   }
+  String toString() {
+    return this.name;
+  }
 }
