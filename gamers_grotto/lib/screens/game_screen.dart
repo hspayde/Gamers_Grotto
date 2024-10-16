@@ -26,6 +26,15 @@ class GameScreen extends StatefulWidget{
 class GameScreenState extends State<GameScreen> {
   double x = 0;
   double y = 0;
+  void empty(x, y) {
+
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    widget.doMove = empty;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(

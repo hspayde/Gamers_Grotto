@@ -36,15 +36,20 @@ class PlayerAvatar extends StatelessWidget {
   final Color circColor;
   final double x;
   final double y;
-
+  getMessage() {
+    if(this.chatMessage != "") {
+      print(this.chatMessage);
+    }
+    return this.chatMessage;
+  }
   @override
   Widget build(BuildContext context) => Positioned(
-          top: y,
-          left: x,
+          top: y-50,
+          left: x-10,
           child: Column(
         children: <Widget>[
           Text(
-            chatMessage,
+            getMessage(),
             style: TextStyle(
                 backgroundColor: Theme.of(context).colorScheme.secondary,
                 color: Theme.of(context).colorScheme.onSecondary),

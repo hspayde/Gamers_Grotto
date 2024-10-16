@@ -14,6 +14,7 @@ class ApplicationState extends ChangeNotifier {
 
 
   Map<String, Player> _players = {};
+    List<String> messages = [];
   Player currentPlayer = Player(name: "Template", x: 50.0, y: 50.0, color: "FF000000");
   Future<void> init() async {
     await Firebase.initializeApp(
@@ -46,11 +47,11 @@ class ApplicationState extends ChangeNotifier {
   }
 
   List<String> getMessages(String room) { 
-    List<String> messages = [];
     FirebaseFirestore.instance
       .collection('rooms')
       .doc(room)
       .collection('messages')
+      .orderBy("timestamp")
       .snapshots()
       .listen((snapshot) {
         for(final message in snapshot.docs) {
@@ -61,7 +62,7 @@ class ApplicationState extends ChangeNotifier {
   }
 
   void addMessage(String room, String message, String playerName) {
-    var data = {"value" : playerName + ": " + message};
+    var data = {"value" : (playerName + ": " + message), "timestamp" : DateTime.now().millisecondsSinceEpoch};
     FirebaseFirestore.instance
       .collection('rooms')
       .doc(room)
@@ -69,6 +70,16 @@ class ApplicationState extends ChangeNotifier {
       .doc()
       .set(data);
     
+  }
+
+  void updateMessage(String room, String message, String playerName) {
+    print("Player " + playerName + " Has said " + message);
+    FirebaseFirestore.instance
+      .collection('rooms')
+      .doc(room)
+      .collection('players')
+      .doc(playerName)
+      .update({'message' : message});
   }
 
   void switchPlayer(String newRoom, String oldRoom, String playerName) {
@@ -104,8 +115,8 @@ class ApplicationState extends ChangeNotifier {
     return currentPlayer;
   }
 
-  Future<void> removePlayer(String room, String playerName) {
-          return FirebaseFirestore.instance
+  void removePlayer(String room, String playerName) {
+          FirebaseFirestore.instance
           .collection('rooms')
           .doc(room)
           .collection('players')
@@ -160,13 +171,6 @@ class ApplicationState extends ChangeNotifier {
     'timestamp': DateTime.now().millisecondsSinceEpoch,
     'name': p.name,
     });
-  }
-
-  void setPlayerPos(String playerName, double x, double y){
-      FirebaseFirestore.instance
-      .collection('players')
-      .doc(playerName)
-      .update({'posX' : x, 'posY' : y});
   }
 }
   

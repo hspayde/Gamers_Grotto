@@ -30,8 +30,7 @@ class GamePageState extends State<GamePage> {
   Map<String, Map<String, double>> roomBounds = {
     "trollcorner" : {"x1" : 0.0, "y1": 100.0, "x2" : 50.0, "y2" : 200}
   };
-  double playerTargetX = 0;
-  double playerTargetY = 0;
+  List<Map<String, double>> playerTarget = [{"x": 500.0, "y":250.0}];
   double moveSpeed = 15;
   String currentRoom = "mainroom";
 
@@ -46,13 +45,11 @@ class GamePageState extends State<GamePage> {
   }
 
   void movePlayer(Timer timer) {
-    print("Moving Player");
     try {
-      setState(() {
       Map<String, Player> players = widget.appState.getPlayers(currentRoom, widget.playerName);
       Player? localPlayer = players[widget.playerName];
-      double difX = localPlayer!.x - playerTargetX;
-      double difY = localPlayer.y - playerTargetY;
+      double difX = localPlayer!.x - playerTarget[0]["x"]!;
+      double difY = localPlayer.y - playerTarget[0]["y"]!;
       double totalDif = difY.abs() + difX.abs();
       if(totalDif >= moveSpeed) {
         double moveX = -1 *(difX/totalDif) * moveSpeed;
@@ -66,17 +63,23 @@ class GamePageState extends State<GamePage> {
           currentRoom = newRoom;
           widget.onPlayerMoved(newRoom);
         }
+      } else {
+        playerTarget.removeAt(0);
       }
-    });
     } catch (_) {
-
+      print("Error");
     }
   }
-
-  var timer;
+  void update(Timer) {
+    setState(() {
+      
+    });
+  }
+  late Timer timer;
+  late Timer uiTimer;
+  String currentMessage = "";
   void setTarget(double x, double y) { 
-    playerTargetX = x;
-    playerTargetY = y;
+    playerTarget.add({"x" : x, "y" : y});
   }
 
   List<Widget> getPlayers() {
@@ -90,7 +93,14 @@ class GamePageState extends State<GamePage> {
   @override
   void initState() {
     super.initState();
-    timer = Timer.periodic(const Duration(milliseconds: 50), movePlayer);
+    timer = Timer.periodic(const Duration(milliseconds: 100), movePlayer);
+    uiTimer = Timer.periodic(const Duration(milliseconds: 200), update);
+  }
+  @override
+  void dispose() {
+    super.dispose();
+    timer.cancel();
+    uiTimer.cancel();
   }
   @override
   Widget build(BuildContext context) {
@@ -106,7 +116,7 @@ class GamePageState extends State<GamePage> {
               showDialog(
                 context: context,
                 builder: (_) {
-                  return ChatLogDialog(chatLog: ['hello','please work']);
+                  return ChatLogDialog(chatLog: widget.appState.getMessages(currentRoom));
                 }
               );
             },
@@ -133,7 +143,11 @@ class GamePageState extends State<GamePage> {
               ),
             ),
             Flexible(child:
-              ElevatedButton(child: Text('Send Message!'), onPressed: null,),
+              ElevatedButton(child: Text('Send Message!'), onPressed: () {
+                currentMessage = chatController.text;
+                widget.appState.addMessage(currentRoom, currentMessage, widget.playerName);
+                widget.appState.updateMessage(currentRoom, currentMessage, widget.playerName);
+              },),
             ),
           ],
         ),
