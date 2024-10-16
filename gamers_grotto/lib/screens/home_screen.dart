@@ -58,7 +58,7 @@ class HomeScreenState extends State<HomeScreen> {
               opacity: 0.3,
             ),
           ),
-        ), // I decided it looked better without the image in the background
+        ),
         Padding(
           padding: const EdgeInsets.all(20),
           child:
