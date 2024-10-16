@@ -1,9 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:gamers_grotto/app_state.dart';
+import 'package:gamers_grotto/screens/game_page.dart';
 import 'objects/Player.dart';
 import 'package:gamers_grotto/widgets.dart';
 import 'package:gamers_grotto/screens/home_screen.dart';
 import 'screens/home_screen.dart';
+import 'dart:math';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/material.dart';
+import 'firebase_options.dart';
+
 typedef PlayerAdded = Function(String name, String color);
 
 void main() {
@@ -20,21 +27,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a purple toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: const ColorScheme(brightness: Brightness.dark,
           primary: Color.fromARGB(255, 106, 112, 89),
           onPrimary: Color.fromARGB(255, 253, 238, 167),
@@ -55,16 +47,6 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
   final String title;
 
   @override
@@ -74,6 +56,9 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
   ApplicationState appState = ApplicationState();
+  final double centerX = 10;
+  final double centerY = 10;
+  var rng = Random();
   String _playerName = '';
   void _playGame() {
     appState.setPlayerPos(_playerName, 105.0, 500.0);
@@ -81,8 +66,16 @@ class _MyHomePageState extends State<MyHomePage> {
 
   void createPlayer(String playerName, String colorHex) {
     _playerName = playerName;
-    Player newPlayer = Player(x: 10.0, y:10.0, color : colorHex, name:playerName);
+    //print("PLAYER HAS " + playerName);
+    double newX = centerX + ((rng.nextDouble() * 10)-5);
+    double newY = centerY + ((rng.nextDouble() * 10)-5);
+    Player newPlayer = Player(x: newX, y: newY, color : colorHex, name:playerName);
     appState.addPlayer(newPlayer);
+  }
+
+  void removePlayer() {
+    print("PLAYER HAS " + _playerName);
+    appState.removePlayer(_playerName);
   }
 
   @override
@@ -111,7 +104,7 @@ class _MyHomePageState extends State<MyHomePage> {
       home:
       Scaffold(
         body:
-          HomeScreen(onPlayerAdded: createPlayer),
+          HomeScreen(onPlayerAdded: createPlayer, onPlayerRemoved: removePlayer, appState: appState),
           // floatingActionButton: FloatingActionButton(
           //   onPressed: _playGame,
           //   backgroundColor: const Color.fromARGB(255, 155, 204, 167),

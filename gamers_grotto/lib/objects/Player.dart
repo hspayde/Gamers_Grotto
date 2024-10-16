@@ -7,12 +7,14 @@ class Player {
   String name;
   double x;
   double y;
-  late double goalX = x;
-  late double goalY = y;
   String color;
   String message;
 
   Color strColor(){
-    return Color(int.parse(color, radix: 16));
+    if(colorFromHex(color) != null) {
+      return colorFromHex(color)!;
+    } else {
+      return Colors.black;
+    }
   }
 }

@@ -13,8 +13,7 @@ class ApplicationState extends ChangeNotifier {
   }
 
 
-  List<Player> _players = [];
-  List<Player> get players => _players;
+  Map<String, Player> _players = {};
   Future<void> init() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
@@ -25,16 +24,15 @@ class ApplicationState extends ChangeNotifier {
       .collection('players')
       .snapshots()
       .listen((snapshot) {
-        _players = [];
         for(final playerInfo in snapshot.docs) {
-          _players.add(
+          String playerName = playerInfo.data()['name'];
+          _players[playerName] = 
             Player(
               name: playerInfo.data()['name'] as String,
               x: double.parse(playerInfo.data()['posX'].toString()), 
               y: double.parse(playerInfo.data()['posY'].toString()),
               color: playerInfo.data()['color'] as String
-            ),
-          );
+            );
         }
       });
   }
@@ -42,8 +40,8 @@ class ApplicationState extends ChangeNotifier {
   Future<void> addPlayer(Player newPlayer, String room) {
     Map<String, dynamic> data = <String, dynamic>{
       'name' : newPlayer.name,
-      'posX' :  newPlayer.goalX,
-      'posY' : newPlayer.goalY,
+      'posX' :  newPlayer.x,
+      'posY' : newPlayer.y,
       'color' : newPlayer.color
     };
     return FirebaseFirestore.instance
@@ -63,6 +61,33 @@ class ApplicationState extends ChangeNotifier {
           .delete();
   }
 
+  Map<String, Player> getPlayers() {
+    FirebaseFirestore.instance
+      .collection('players')
+      .snapshots()
+      .listen((snapshot) {
+        for(final playerInfo in snapshot.docs) {
+          String playerName = playerInfo.data()['name'];
+          _players[playerName] = 
+            Player(
+              name: playerInfo.data()['name'] as String,
+              x: double.parse(playerInfo.data()['posX'].toString()), 
+              y: double.parse(playerInfo.data()['posY'].toString()),
+              color: playerInfo.data()['color'] as String
+            );
+        }
+      });
+    print("NEWPLAYERSBIATCEs");
+    print(_players);
+    print("NONEWPLAYERS");
+    return _players;
+  }
+
+  void setPlayerPos(String playerName, double x, double y){
+      FirebaseFirestore.instance
+      .collection('players')
+      .doc(playerName)
+      .update({'posX' : x, 'posY' : y});
   Future<void> addToChat(String room, String message, Player p) {
     return FirebaseFirestore.instance
       .collection('rooms')
