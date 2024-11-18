@@ -108,8 +108,6 @@ class ApplicationState extends ChangeNotifier {
   }
 
   void switchPlayer(String newRoom, String oldRoom, String playerName) {
-    // Player player = getPlayer(oldRoom, playerName);
-    // TODO(colin): ensure this is populated by firebase
     Player player = players[playerName]!;
     print(player);
     removePlayer(oldRoom, playerName);
