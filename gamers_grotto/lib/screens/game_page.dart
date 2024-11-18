@@ -140,7 +140,7 @@ class GamePageState extends State<GamePage> {
               showDialog(
                   context: context,
                   builder: (_) {
-                    return ChatLogDialog(chatLog: widget.appState.messages);
+                    return ChatLogDialog();
                   });
             },
             icon: Icon(Icons.chat,
