@@ -12,10 +12,10 @@ class ApplicationState extends ChangeNotifier {
     init();
   }
 
-
-  Map<String, Player> _players = {};
-    List<String> messages = [];
+  Map<String, Player> players = {};
+  List<String> messages = [];
   Player currentPlayer = Player(name: "Template", x: 50.0, y: 50.0, color: "FF000000");
+
   Future<void> init() async {
     await Firebase.initializeApp(
         options: DefaultFirebaseOptions.currentPlatform);
@@ -46,20 +46,20 @@ class ApplicationState extends ChangeNotifier {
       .set(data);
   }
 
-  List<String> getMessages(String room) { 
-    FirebaseFirestore.instance
-      .collection('rooms')
-      .doc(room)
-      .collection('messages')
-      .orderBy("timestamp")
-      .snapshots()
-      .listen((snapshot) {
-        for(final message in snapshot.docs) {
-          messages.add(message["value"]);
-        }
-      });
-    return messages.toList();
-  }
+  // List<String> getMessages(String room) { 
+  //   FirebaseFirestore.instance
+  //     .collection('rooms')
+  //     .doc(room)
+  //     .collection('messages')
+  //     .orderBy("timestamp")
+  //     .snapshots()
+  //     .listen((snapshot) {
+  //       for(final message in snapshot.docs) {
+  //         messages.add(message["value"]);
+  //       }
+  //     });
+  //   return messages.toList();
+  // }
 
   void addMessage(String room, String message, String playerName) {
     var data = {"value" : (playerName + ": " + message), "timestamp" : DateTime.now().millisecondsSinceEpoch};
@@ -82,38 +82,38 @@ class ApplicationState extends ChangeNotifier {
       .update({'message' : message});
   }
 
-  void switchPlayer(String newRoom, String oldRoom, String playerName) {
-    Player player = getPlayer(oldRoom, playerName);
-    print(player);
-    removePlayer(oldRoom, playerName);
-    addPlayer(player, newRoom);
-  }
+  // void switchPlayer(String newRoom, String oldRoom, String playerName) {
+  //   Player player = getPlayer(oldRoom, playerName);
+  //   print(player);
+  //   removePlayer(oldRoom, playerName);
+  //   addPlayer(player, newRoom);
+  // }
 
-  Player getPlayer(String room, String playerName) { 
-    FirebaseFirestore.instance
-      .collection('rooms')
-      .doc(room)
-      .collection('players')
-      .doc(playerName)
-      .get()
-      .then(
-      (DocumentSnapshot doc) {
-        try {
-        final data = doc.data() as Map<String, dynamic>;
-        currentPlayer = Player
-        (
-          color: data["color"],
-          name: data["name"],
-          x: data["posX"],
-          y: data["posY"] 
-        );
-        } catch (_)
-        {
-        }
-      }
-    );
-    return currentPlayer;
-  }
+  // Player getPlayer(String room, String playerName) { 
+  //   FirebaseFirestore.instance
+  //     .collection('rooms')
+  //     .doc(room)
+  //     .collection('players')
+  //     .doc(playerName)
+  //     .get()
+  //     .then(
+  //     (DocumentSnapshot doc) {
+  //       try {
+  //       final data = doc.data() as Map<String, dynamic>;
+  //       currentPlayer = Player
+  //       (
+  //         color: data["color"],
+  //         name: data["name"],
+  //         x: data["posX"],
+  //         y: data["posY"] 
+  //       );
+  //       } catch (_)
+  //       {
+  //       }
+  //     }
+  //   );
+  //   return currentPlayer;
+  // }
 
   void removePlayer(String room, String playerName) {
           FirebaseFirestore.instance
@@ -124,26 +124,26 @@ class ApplicationState extends ChangeNotifier {
           .delete();
   }
 
-  Map<String, Player> getPlayers(String room, String playerName) {
-    FirebaseFirestore.instance
-      .collection('rooms')
-      .doc(room)
-      .collection('players')
-      .snapshots()
-      .listen((snapshot) {
-        for(final playerInfo in snapshot.docs) {
-          String playerName = playerInfo.data()['name'];
-          currentPlayer = Player(
-              name: playerInfo.data()['name'] as String,
-              x: double.parse(playerInfo.data()['posX'].toString()), 
-              y: double.parse(playerInfo.data()['posY'].toString()),
-              color: playerInfo.data()['color'] as String
-            );
-          _players[playerName] = currentPlayer;
-        }
-      });
-    return _players;
-  }
+  // Map<String, Player> getPlayers(String room, String playerName) {
+  //   FirebaseFirestore.instance
+  //     .collection('rooms')
+  //     .doc(room)
+  //     .collection('players')
+  //     .snapshots()
+  //     .listen((snapshot) {
+  //       for(final playerInfo in snapshot.docs) {
+  //         String playerName = playerInfo.data()['name'];
+  //         currentPlayer = Player(
+  //             name: playerInfo.data()['name'] as String,
+  //             x: double.parse(playerInfo.data()['posX'].toString()), 
+  //             y: double.parse(playerInfo.data()['posY'].toString()),
+  //             color: playerInfo.data()['color'] as String
+  //           );
+  //         _players[playerName] = currentPlayer;
+  //       }
+  //     });
+  //   return _players;
+  // }
 
   void setPlayerPos(String room, String playerName, double x, double y){
       FirebaseFirestore.instance
@@ -154,7 +154,7 @@ class ApplicationState extends ChangeNotifier {
       .update({'posX' : x, 'posY' : y});
   }
 
-  Future<void> addToChat(String room, String message, Player p) {
+  void addToChat(String room, String message, Player p) {
     p.message = message;
     FirebaseFirestore.instance
       .collection('rooms')
@@ -162,7 +162,7 @@ class ApplicationState extends ChangeNotifier {
       .collection('players')
       .doc(p.name)
       .update({'message': message});
-    return FirebaseFirestore.instance
+    FirebaseFirestore.instance
       .collection('rooms')
       .doc(room)
       .collection('chatlog')
