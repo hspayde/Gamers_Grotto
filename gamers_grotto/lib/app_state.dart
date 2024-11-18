@@ -29,6 +29,41 @@ class ApplicationState extends ChangeNotifier {
         .collection('rooms')
         .doc('mainroom')
         .collection('messages');
+
+    FirebaseFirestore.instance
+        .collection('rooms')
+        .doc('mainroom')
+        .collection('messages')
+        .orderBy("timestamp")
+        .snapshots()
+        .listen((snapshot) {
+      messages = [];
+      for (final message in snapshot.docs) {
+        messages.add(message["value"]);
+      }
+
+      notifyListeners();
+    });
+
+    FirebaseFirestore.instance
+        .collection('rooms')
+        .doc('mainroom')
+        .collection('players')
+        .snapshots()
+        .listen((snapshot) {
+      players = {};
+      for (final playerInfo in snapshot.docs) {
+        String playerName = playerInfo.data()['name'];
+        currentPlayer = Player(
+            name: playerInfo.data()['name'] as String,
+            x: double.parse(playerInfo.data()['posX'].toString()),
+            y: double.parse(playerInfo.data()['posY'].toString()),
+            color: playerInfo.data()['color'] as String);
+        players[playerName] = currentPlayer;
+      }
+
+      notifyListeners();
+    });
   }
 
   void addPlayer(Player newPlayer, String room) {
