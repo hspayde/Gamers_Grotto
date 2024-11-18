@@ -55,8 +55,8 @@ class GamePageState extends State<GamePage> {
 
   void movePlayer(Timer timer) {
     try {
-      Map<String, Player> players =
-          widget.appState.getPlayers(currentRoom, widget.playerName);
+      Map<String, Player> players = widget.appState.players;
+
       Player? localPlayer = players[widget.playerName];
       double difX = localPlayer!.x - playerTarget[0]["x"]!;
       double difY = localPlayer.y - playerTarget[0]["y"]!;
@@ -94,8 +94,8 @@ class GamePageState extends State<GamePage> {
   }
 
   List<Widget> getPlayers() {
-    var currentPlayers =
-        widget.appState.getPlayers(currentRoom, widget.playerName);
+    var currentPlayers = widget.appState.players;
+
     List<Widget> finalList = [
       Positioned(
           top: 100,
@@ -140,8 +140,7 @@ class GamePageState extends State<GamePage> {
               showDialog(
                   context: context,
                   builder: (_) {
-                    return ChatLogDialog(
-                        chatLog: widget.appState.getMessages(currentRoom));
+                    return ChatLogDialog(chatLog: widget.appState.messages);
                   });
             },
             icon: Icon(Icons.chat,
