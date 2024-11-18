@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gamers_grotto/app_state.dart';
 import 'package:gamers_grotto/screens/game_page.dart';
+import 'package:provider/provider.dart';
 import 'objects/Player.dart';
 import 'package:gamers_grotto/widgets.dart';
 import 'package:gamers_grotto/screens/home_screen.dart';
@@ -14,7 +15,10 @@ import 'firebase_options.dart';
 typedef PlayerAdded = Function(String name, String color);
 
 void main() {
-  runApp(MyHomePage(title: 'Gamers Grotto'));
+  runApp(ChangeNotifierProvider(
+    create: (context) => ApplicationState(),
+    builder: ((ctx, child) => const MyHomePage(title: 'Gamers Grotto')),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -56,7 +60,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
-  ApplicationState appState = ApplicationState();
   final double centerX = 50;
   final double centerY = 500;
   var rng = Random();
@@ -65,28 +68,6 @@ class _MyHomePageState extends State<MyHomePage> {
   // void _playGame() {
   //   appState.setPlayerPos(_playerName, 105.0, 500.0);
   // }
-
-  void createPlayer(String playerName, String colorHex) {
-    _playerName = playerName;
-    _currentRoom = "mainroom";
-    //print("PLAYER HAS " + playerName);
-    double newX = centerX + ((rng.nextDouble() * 50) - 25);
-    double newY = centerY + ((rng.nextDouble() * 50) - 25);
-    Player newPlayer =
-        Player(x: newX, y: newY, color: colorHex, name: playerName);
-    appState.addPlayer(newPlayer, _currentRoom);
-  }
-
-  void removePlayer() {
-    appState.removePlayer(_playerName, _currentRoom);
-  }
-
-  void movePlayer(String newRoom) {
-    String oldRoom = _currentRoom;
-
-    appState.switchPlayer(newRoom, oldRoom, _playerName);
-    _currentRoom = newRoom;
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -113,11 +94,34 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       ),
       home: Scaffold(
-        body: HomeScreen(
-            onPlayerAdded: createPlayer,
-            onPlayerRemoved: removePlayer,
-            onPlayerMoved: movePlayer,
-            appState: appState),
+        body: Consumer<ApplicationState>(
+          builder: (context, appState, _) => HomeScreen(
+              onPlayerAdded: (String playerName, String colorHex) {
+                setState(() {
+                  _playerName = playerName;
+                  _currentRoom = "mainroom";
+                  //print("PLAYER HAS " + playerName);
+                  double newX = centerX + ((rng.nextDouble() * 50) - 25);
+                  double newY = centerY + ((rng.nextDouble() * 50) - 25);
+                  Player newPlayer = Player(
+                      x: newX, y: newY, color: colorHex, name: playerName);
+                  appState.addPlayer(newPlayer, _currentRoom);
+                });
+              },
+              onPlayerRemoved: () {
+                setState(() {
+                  appState.removePlayer(_playerName, _currentRoom);
+                });
+              },
+              onPlayerMoved: (String newRoom) {
+                setState(() {
+                  String oldRoom = _currentRoom;
+                  appState.switchPlayer(newRoom, oldRoom, _playerName);
+                  _currentRoom = newRoom;
+                });
+              },
+              appState: appState),
+        ),
         // floatingActionButton: FloatingActionButton(
         //   onPressed: _playGame,
         //   backgroundColor: const Color.fromARGB(255, 155, 204, 167),
