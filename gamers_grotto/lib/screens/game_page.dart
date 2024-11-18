@@ -176,6 +176,7 @@ class GamePageState extends State<GamePage> {
                   child: Text('Send Message!'),
                   onPressed: () {
                     currentMessage = chatController.text;
+                    chatController.clear();
                     widget.appState.addMessage(
                         currentRoom, currentMessage, widget.playerName);
                     widget.appState.updateMessage(
