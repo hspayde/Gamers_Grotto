@@ -55,10 +55,12 @@ class ApplicationState extends ChangeNotifier {
       for (final playerInfo in snapshot.docs) {
         String playerName = playerInfo.data()['name'];
         currentPlayer = Player(
-            name: playerInfo.data()['name'] as String,
-            x: double.parse(playerInfo.data()['posX'].toString()),
-            y: double.parse(playerInfo.data()['posY'].toString()),
-            color: playerInfo.data()['color'] as String);
+          name: playerInfo.data()['name'] as String,
+          x: double.parse(playerInfo.data()['posX'].toString()),
+          y: double.parse(playerInfo.data()['posY'].toString()),
+          color: playerInfo.data()['color'] as String,
+          message: playerInfo.data()['message'] as String,
+        );
         players[playerName] = currentPlayer;
       }
 
