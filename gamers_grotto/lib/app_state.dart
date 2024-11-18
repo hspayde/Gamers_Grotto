@@ -85,12 +85,14 @@ class ApplicationState extends ChangeNotifier {
         .update({'message': message});
   }
 
-  // void switchPlayer(String newRoom, String oldRoom, String playerName) {
-  //   Player player = getPlayer(oldRoom, playerName);
-  //   print(player);
-  //   removePlayer(oldRoom, playerName);
-  //   addPlayer(player, newRoom);
-  // }
+  void switchPlayer(String newRoom, String oldRoom, String playerName) {
+    // Player player = getPlayer(oldRoom, playerName);
+    // TODO(colin): ensure this is populated by firebase
+    Player player = players[playerName]!;
+    print(player);
+    removePlayer(oldRoom, playerName);
+    addPlayer(player, newRoom);
+  }
 
   // Player getPlayer(String room, String playerName) {
   //   FirebaseFirestore.instance
