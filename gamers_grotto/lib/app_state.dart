@@ -84,21 +84,6 @@ class ApplicationState extends ChangeNotifier {
         .set(data);
   }
 
-  // List<String> getMessages(String room) {
-  //   FirebaseFirestore.instance
-  //     .collection('rooms')
-  //     .doc(room)
-  //     .collection('messages')
-  //     .orderBy("timestamp")
-  //     .snapshots()
-  //     .listen((snapshot) {
-  //       for(final message in snapshot.docs) {
-  //         messages.add(message["value"]);
-  //       }
-  //     });
-  //   return messages.toList();
-  // }
-
   void addMessage(String room, String message, String playerName) {
     var data = {
       "value": (playerName + ": " + message),
@@ -131,32 +116,6 @@ class ApplicationState extends ChangeNotifier {
     addPlayer(player, newRoom);
   }
 
-  // Player getPlayer(String room, String playerName) {
-  //   FirebaseFirestore.instance
-  //     .collection('rooms')
-  //     .doc(room)
-  //     .collection('players')
-  //     .doc(playerName)
-  //     .get()
-  //     .then(
-  //     (DocumentSnapshot doc) {
-  //       try {
-  //       final data = doc.data() as Map<String, dynamic>;
-  //       currentPlayer = Player
-  //       (
-  //         color: data["color"],
-  //         name: data["name"],
-  //         x: data["posX"],
-  //         y: data["posY"]
-  //       );
-  //       } catch (_)
-  //       {
-  //       }
-  //     }
-  //   );
-  //   return currentPlayer;
-  // }
-
   void removePlayer(String room, String playerName) {
     FirebaseFirestore.instance
         .collection('rooms')
@@ -165,27 +124,6 @@ class ApplicationState extends ChangeNotifier {
         .doc(playerName)
         .delete();
   }
-
-  // Map<String, Player> getPlayers(String room, String playerName) {
-  //   FirebaseFirestore.instance
-  //     .collection('rooms')
-  //     .doc(room)
-  //     .collection('players')
-  //     .snapshots()
-  //     .listen((snapshot) {
-  //       for(final playerInfo in snapshot.docs) {
-  //         String playerName = playerInfo.data()['name'];
-  //         currentPlayer = Player(
-  //             name: playerInfo.data()['name'] as String,
-  //             x: double.parse(playerInfo.data()['posX'].toString()),
-  //             y: double.parse(playerInfo.data()['posY'].toString()),
-  //             color: playerInfo.data()['color'] as String
-  //           );
-  //         _players[playerName] = currentPlayer;
-  //       }
-  //     });
-  //   return _players;
-  // }
 
   void setPlayerPos(String room, String playerName, double x, double y) {
     FirebaseFirestore.instance
