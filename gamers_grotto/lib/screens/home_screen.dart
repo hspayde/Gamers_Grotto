@@ -16,14 +16,13 @@ typedef playerRemoved = Function();
 
 typedef roomChanged = Function(String newRoom);
 
-class HomeScreen extends StatefulWidget{
-  const HomeScreen({
-    super.key,
-    required this.onPlayerAdded,
-    required this.onPlayerRemoved,
-    required this.appState,
-    required this.onPlayerMoved
-  });
+class HomeScreen extends StatefulWidget {
+  const HomeScreen(
+      {super.key,
+      required this.onPlayerAdded,
+      required this.onPlayerRemoved,
+      required this.appState,
+      required this.onPlayerMoved});
 
   final playerAdded onPlayerAdded;
 
@@ -47,9 +46,7 @@ class HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: 
-      Stack(
-        children: <Widget>[
+      body: Stack(children: <Widget>[
         Container(
           decoration: const BoxDecoration(
             image: DecorationImage(
@@ -61,61 +58,61 @@ class HomeScreenState extends State<HomeScreen> {
         ),
         Padding(
           padding: const EdgeInsets.all(20),
-          child:
-          Align(
+          child: Align(
             alignment: Alignment.center,
-            child:
-              SingleChildScrollView(
-                child:
-                Column(
-                  children: <Widget> [
-                    const MainTitleText(),
-                    Text("Welcome to the Grotto, please type your name and choose a color!", 
-                    style: TextStyle(color: Theme.of(context).colorScheme.onSecondary, fontSize: 20),),
-                    TextField(
-                      style: TextStyle(
-                      color: Theme.of(context).colorScheme.onSecondary
-                      ),
-                      controller: nameController,
-                      onChanged: (value) {
-                        setState(() {
-                          nameVal = value;
-                        });
-                      },
-                      decoration: const InputDecoration(hintText: "Input your display name here"),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.all(5),
-                      child:
-                      ColorPicker(
-                        pickerColor: Colors.black, 
-                        
+            child: SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  const MainTitleText(),
+                  Text(
+                    "Welcome to the Grotto, please type your name and choose a color!",
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary,
+                        fontSize: 20),
+                  ),
+                  TextField(
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.onSecondary),
+                    controller: nameController,
+                    onChanged: (value) {
+                      setState(() {
+                        nameVal = value;
+                      });
+                    },
+                    decoration: const InputDecoration(
+                        hintText: "Input your display name here"),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(5),
+                    child: ColorPicker(
+                        pickerColor: Colors.black,
                         onColorChanged: (value) {
                           colorVal = value.toHexString();
-                        }
-                      ),
-                    ),
-                    FloatingActionButton(
-                      backgroundColor: Theme.of(context).colorScheme.secondary,
-                      foregroundColor: Theme.of(context).colorScheme.onSecondary,
-                      onPressed: () { 
-                        activeName = nameVal;
-                        widget.onPlayerAdded(activeName, colorVal);
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return GamePage(onPlayerRemoved: widget.onPlayerRemoved, onPlayerMoved: widget.onPlayerMoved,appState: widget.appState, playerName: activeName);
-                            },
-                          )
-                        );
-                      },
-                      child: const Icon(Icons.check),
-                    ),
-                  ],
-                ),
+                        }),
+                  ),
+                  FloatingActionButton(
+                    backgroundColor: Theme.of(context).colorScheme.secondary,
+                    foregroundColor: Theme.of(context).colorScheme.onSecondary,
+                    onPressed: () {
+                      activeName = nameVal;
+                      widget.onPlayerAdded(activeName, colorVal);
+                      Navigator.of(context).push(MaterialPageRoute(
+                        builder: (BuildContext context) {
+                          return GamePage(
+                              onPlayerRemoved: widget.onPlayerRemoved,
+                              onPlayerMoved: widget.onPlayerMoved,
+                              appState: widget.appState,
+                              playerName: activeName);
+                        },
+                      ));
+                    },
+                    child: const Icon(Icons.check),
+                  ),
+                ],
               ),
             ),
           ),
+        ),
       ]),
     );
   }
