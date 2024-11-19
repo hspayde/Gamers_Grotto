@@ -11,3 +11,7 @@ Users will be represented with circles with the selected color and name.
 Tapping anywhere on the screen moves your circle to that spot! 
 Use the portals to go to a new area! 
 Type in the textbox at the bottom to send a message that will be displayed above your avatar!
+
+![Home Page](https://github.com/hspayde/Gamers_Grotto/blob/main/gamers_grotto/lib/images/home.png)
+![The Grotto](https://github.com/hspayde/Gamers_Grotto/blob/main/gamers_grotto/lib/images/grotto.png)
+![Chatlog](https://github.com/hspayde/Gamers_Grotto/blob/main/gamers_grotto/lib/images/chatlog.png)
